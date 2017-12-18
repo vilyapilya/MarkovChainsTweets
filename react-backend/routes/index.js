@@ -10,7 +10,7 @@ var client = new Twitter({
 })
 
 router.get('/index', function(req, res, next) {
-  client.get('statuses/user_timeline', {screen_name: 'realDonaldTrump', count: 10000, tweet_mode: 'extended'}, function(error, tweet, response){
+  client.get('statuses/user_timeline', {screen_name: 'realDonaldTrump', count: 10000, tweet_mode: 'extended', exclude_replies: true, trim_user: true, retweeted_status: ''}, function(error, tweet, response){
   if(error) throw error
   res.json(tweet);
  });
