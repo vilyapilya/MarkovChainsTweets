@@ -25,5 +25,3 @@ open in your browser:
 <br />
 localhost:3000
 <br />
-
-P.S. it might fail because of unhandled 304 responces. In this case refresh the page and select a different tweeter screen_name.
