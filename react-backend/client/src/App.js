@@ -22,6 +22,7 @@ class App extends Component {
     this.handleSubmit = this.handleSubmit.bind(this)
     this.processTweets = this.processTweets.bind(this)
     this.selectFirstWord = this.selectFirstWord.bind(this)
+    this.processPunctuation = this.processPunctuation.bind(this)
   }
   
   fet(username){
@@ -192,9 +193,9 @@ class App extends Component {
         <label>
           Enter a screen_name (e.g. "Greenpeace")
           <br/>
-            <input id="input" type="text" value={this.state.value} />
+            <input id="input" type="text" value={this.state.value} style={inputFieldStyle} />
         </label>
-        <button onClick={this.handleSubmit} id="generate">generate</button>
+        <button onClick={this.handleSubmit} id="generate" style={generateButtonStyle}>generate</button>
       </form>
     );
   }
@@ -238,11 +239,32 @@ class App extends Component {
     return (
       <div className="App"> 
         <h2>{this.inputField()}</h2>
-        <h2>{generatedTweet}</h2>
+        <h2 style={tweetStyle}>{generatedTweet}</h2>
         {error}
       </div>
     );
   }
+}
+
+const inputFieldStyle = {
+  height: '30px',
+  width: '200px',
+  margin: '15px',
+  fontSize: '15px'
+}
+
+const generateButtonStyle = {
+  height: '30px',
+  width: '100px',
+  margin: '15px',
+  fontSize: '17px',
+  borderRadius: '8px',
+  backgroundColor: 'lightgray'
+}
+
+const tweetStyle = {
+  fontSize: '25px',
+  padding: '35px'
 }
 
 export default App;
