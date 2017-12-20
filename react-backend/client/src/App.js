@@ -24,7 +24,7 @@ class App extends Component {
     this.selectFirstWord = this.selectFirstWord.bind(this)
     this.processPunctuation = this.processPunctuation.bind(this)
   }
-  
+
   fet(username){
     fetch(`/v1/users/${username}`)
       .then(res => res.json())
@@ -40,17 +40,17 @@ class App extends Component {
         }
       })
   }
-  
+
   //filters out retweeted statuses
   getArrayOfTweets() {
     var tweetText = []
-    if(this.state.tweets.length > 0) {    
+    if(this.state.tweets.length > 0) {
       this.state.tweets.forEach((tweet) => {
         //excludes the retweets from another user. api call
         //did not filter them out
         if(!tweet.retweeted_status) {
           tweetText.push(tweet.full_text)
-        } 
+        }
       })
     }
     return tweetText
@@ -59,15 +59,15 @@ class App extends Component {
   processPunctuation(word, set, lastChar) {
     var w = word.substring(0, word.length-1)
     if(w.length > 0) {
-      this.rawText.push(w)             
+      this.rawText.push(w)
       set.add(w)
     }
-    if(lastChar === '.'){      
+    if(lastChar === '.'){
       this.rawText.push(lastChar)
       set.add(lastChar)
     }
   }
-  
+
   //creates an array of unique words and array of all words.
   //treats a "." as a word and strips out other punctuation
   getArrayOfAllAndUniqueWords(arrayOfTweets) {
@@ -86,14 +86,14 @@ class App extends Component {
             //to the containers
             this.processPunctuation(word, set, lastChar)
           }
-          else {       
+          else {
             this.rawText.push(word)
-            set.add(word)          
-          }           
+            set.add(word)
+          }
         }
       })
     })
-    this.uniqueWords = Array.from(set) 
+    this.uniqueWords = Array.from(set)
   }
 
   createMatrix(size) {
@@ -105,7 +105,7 @@ class App extends Component {
   }
 
   countFollowingWords(mainWord) {
-    var raw = this.rawText   
+    var raw = this.rawText
     var followingNum = {}
     for(var j = 0; j < raw.length; j++) {
       if(j < raw.length - 1) {
@@ -116,14 +116,14 @@ class App extends Component {
     }
     return followingNum
   }
-  
+
   //calculates how often a word follows another word.
-  fillTheMatrix(matrix) { 
+  fillTheMatrix(matrix) {
     var uniqueW = this.uniqueWords
     for(var i = 0; i < uniqueW.length; i++) {
       var mainWord = uniqueW[i]
       var followingHash = this.countFollowingWords(mainWord)
-    
+
       var keys = Object.keys(followingHash)
       keys.forEach((followingWord) => {
         var followingWordMatInd = uniqueW.indexOf(followingWord)
@@ -134,21 +134,21 @@ class App extends Component {
     return matrix
   }
 
-  selectNextWord(matrix, baseWord) {  
+  selectNextWord(matrix, baseWord) {
     var firstWords = []
     var currentSum = 0
-    var periodInd = this.uniqueWords.indexOf(baseWord) 
+    var periodInd = this.uniqueWords.indexOf(baseWord)
 
     var max = matrix[periodInd].reduce(function(a, b) {return a + b})
     var rand = Math.random() * max
     for(var i = 0; i < matrix.length; i++) {
       if(rand <= (matrix[periodInd][i] + currentSum)){
         return this.uniqueWords[i]
-      } 
+      }
       currentSum = currentSum + matrix[periodInd][i]
     }
   }
-  
+
   selectFirstWord() {
     var firstWord = ""
     var arr = this.uniqueWords
@@ -160,9 +160,9 @@ class App extends Component {
       }
       count++
     }
-    return firstWord    
+    return firstWord
   }
-  
+
   //size is a number od words in the tweet
   generateTweet(matrix, size){
     var res = []
@@ -176,13 +176,13 @@ class App extends Component {
   }
 
   handleSubmit(event) {
-    event.preventDefault();    
-    var username = document.getElementById("input").value;  
-    var cachedKey = this.cache.getKey(username)  
-    if(cachedKey === null) {     
+    event.preventDefault();
+    var username = document.getElementById("input").value;
+    var cachedKey = this.cache.getKey(username)
+    if(cachedKey === null) {
       this.fet(username)
       this.matrixFromCache = null
-    } else {     
+    } else {
       this.setState({error: ""})
       this.matrixFromCache = cachedKey.matrix
     }
@@ -190,7 +190,7 @@ class App extends Component {
 
   inputField() {
     return(
-      <form id="inputForm">      
+      <form id="inputForm">
         <label>
           Enter a screen_name (e.g. "Greenpeace")
           <br/>
@@ -214,7 +214,7 @@ class App extends Component {
     this.cache.setKey(this.state.username, filledMat)
     return filledMat;
   }
-  
+
   render() {
     var error = ""
     var genT = ""
@@ -226,15 +226,15 @@ class App extends Component {
     //it generates the tweet in case if the last user was retrieved from cache
     //but a user before was not found and this.state.tweets.length == 0
     if(this.matrixFromCache !== null) {
-      generatedTweet = this.generateTweet(this.matrixFromCache, 50)  
+      generatedTweet = this.generateTweet(this.matrixFromCache, 50)
     }
-    
+
     //if not from cache, then the state should contain tweets
     if(this.state.tweets.length > 0 && this.state.error.length <= 0) {
       mat = this.processTweets()
       if(mat.length > 0) {
-        generatedTweet = this.generateTweet(mat, 50)       
-      }  
+        generatedTweet = this.generateTweet(mat, 50)
+      }
     }
 
     if(error.length > 0) {
@@ -242,7 +242,7 @@ class App extends Component {
     }
 
     return (
-      <div className="App"> 
+      <div className="App">
         <h2>{this.inputField()}</h2>
         <h2 style={tweetStyle}>{generatedTweet}</h2>
         {error}
