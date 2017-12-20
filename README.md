@@ -1,5 +1,5 @@
 # MarkovChainsTweets
-##Generates Markov chains based on a user tweets
+## Generates Markov chains based on a user tweets
 <br />
 git clone https://github.com/vilyapilya/MarkovChainsTweets.git
 <br />
@@ -12,7 +12,7 @@ npm install
 PORT=3001 node bin/www
 <br />
 <br />
-##open a new tab in your terminal
+## open a new tab in your terminal
 <br />
 cd client
 <br />
@@ -21,7 +21,7 @@ npm install
 npm start
 <br />
 <br />
-##should open a browser window automatically. If it didn't, go to:
+## should open a browser window automatically. If it didn't, go to:
 <br />
 localhost:3000
 <br />
