@@ -4,27 +4,26 @@ var Twitter = require('twitter');
 var router = express.Router();
 var TwitterTokenStrategy = require('passport-twitter-token');
 var passport = require('passport')
-var OAuth2 = require('OAuth').OAuth2; 
+var OAuth2 = require('OAuth').OAuth2;
 var https = require('https');
 var oauth2 = new OAuth2(process.env.TWITTER_CONSUMER_KEY, process.env.TWITTER_CONSUMER_SECRET, 'https://api.twitter.com/', null, 'oauth2/token', null);
 
 oauth2.getOAuthAccessToken('', {
     'grant_type': 'client_credentials'
 }, function (e, access_token) {
-     
+
     var getOp = function(op) {
       return ({
         hostname: 'api.twitter.com',
-        path: `/1.1/statuses/user_timeline.json?screen_name=${op}&count=500000&tweet_mode=extended&exclude_replies=true&trim_user=true`,
+        path: `/1.1/statuses/user_timeline.json?screen_name=${op}&count=200&tweet_mode=extended&exclude_replies=true&trim_user=true`,
         headers: {
             Authorization: 'Bearer ' + access_token
         }
       });
     }
-      
     router.get('/v1/users/:username', function(req, res, next) {
       var username = req.params.username;
-      
+
       https.get(getOp(username), function (result) {
         var buffer = '';
         result.setEncoding('utf8');
