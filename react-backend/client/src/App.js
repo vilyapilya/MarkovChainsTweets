@@ -32,11 +32,11 @@ class App extends Component {
         if(tweets.error) {
           this.setState({error: tweets.error})
           this.setState({tweets: []})
-          this.setState({username});
+          this.setState({username: username});
         } else {
           this.setState({tweets})
           this.setState({error: ""})
-          this.setState({username});
+          this.setState({username: username});
         }
       })
   }
@@ -139,7 +139,12 @@ class App extends Component {
   selectNextWord(matrix, baseWord) {
     var firstWords = []
     var currentSum = 0
+<<<<<<< HEAD
     var periodInd = this.uniqueWords.indexOf(baseWord)
+=======
+    var periodInd = this.uniqueWords.indexOf(baseWord)
+
+>>>>>>> 0359e53a5bd3f8ba048b36a855a78973f5bfb8c9
     var max = matrix[periodInd].reduce(function(a, b) {return a + b})
     var rand = Math.random() * max
     for(var i = 0; i < matrix.length; i++) {
@@ -204,11 +209,14 @@ class App extends Component {
 
   processTweets() {
     var arrayOfTweets = this.getArrayOfTweets()
+    if(arrayOfTweets.length <=0 ){
+      this.setState({error: "did not write anything"})
+      return []
+    }
     this.getArrayOfAllAndUniqueWords(arrayOfTweets)
     var matrix = this.createMatrix(this.uniqueWords.length)
     var filledMat = this.fillTheMatrix(matrix)
     //once the matrix is generated for a new user, it gets cached
-    console.log(this.state)
     this.cache.setKey(this.state.username, filledMat)
     return filledMat;
   }
@@ -221,7 +229,10 @@ class App extends Component {
     if(this.state.error) {
       error = (<h2>{this.state.error}</h2>)
     }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 0359e53a5bd3f8ba048b36a855a78973f5bfb8c9
     //it generates the tweet in case if the last user was retrieved from cache
     //but a user before was not found and this.state.tweets.length == 0
     if(this.matrixFromCache !== null) {
@@ -229,9 +240,15 @@ class App extends Component {
     }
 
     //if not from cache, then the state should contain tweets
-    if(this.state.tweets.length > 0 && !this.state.error) {
+    if(this.state.tweets.length > 0 && this.state.error.length <= 0) {
       mat = this.processTweets()
+<<<<<<< HEAD
       generatedTweet = this.generateTweet(mat, 50)
+=======
+      if(mat.length > 0) {
+        generatedTweet = this.generateTweet(mat, 50)
+      }
+>>>>>>> 0359e53a5bd3f8ba048b36a855a78973f5bfb8c9
     }
 
     if(error.length > 0) {
