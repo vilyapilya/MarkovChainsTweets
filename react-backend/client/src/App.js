@@ -53,8 +53,6 @@ class App extends Component {
         }
       })
     }
-    console.log(this.state.tweets)
-    console.log(tweetText)
     return tweetText
   }
 
@@ -140,6 +138,7 @@ class App extends Component {
     var firstWords = []
     var currentSum = 0
     var periodInd = this.uniqueWords.indexOf(baseWord)
+
     var max = matrix[periodInd].reduce(function(a, b) {return a + b})
     var rand = Math.random() * max
     for(var i = 0; i < matrix.length; i++) {
@@ -224,10 +223,6 @@ class App extends Component {
     if(this.state.error) {
       error = (<h2>{this.state.error}</h2>)
     }
-<<<<<<< HEAD
-
-=======
->>>>>>> 0359e53a5bd3f8ba048b36a855a78973f5bfb8c9
     //it generates the tweet in case if the last user was retrieved from cache
     //but a user before was not found and this.state.tweets.length == 0
     if(this.matrixFromCache !== null) {
@@ -237,13 +232,9 @@ class App extends Component {
     //if not from cache, then the state should contain tweets
     if(this.state.tweets.length > 0 && this.state.error.length <= 0) {
       mat = this.processTweets()
-<<<<<<< HEAD
-      generatedTweet = this.generateTweet(mat, 50)
-=======
       if(mat.length > 0) {
         generatedTweet = this.generateTweet(mat, 50)
       }
->>>>>>> 0359e53a5bd3f8ba048b36a855a78973f5bfb8c9
     }
 
     if(error.length > 0) {
