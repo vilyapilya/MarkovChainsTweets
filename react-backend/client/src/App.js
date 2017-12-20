@@ -139,12 +139,7 @@ class App extends Component {
   selectNextWord(matrix, baseWord) {
     var firstWords = []
     var currentSum = 0
-<<<<<<< HEAD
     var periodInd = this.uniqueWords.indexOf(baseWord)
-=======
-    var periodInd = this.uniqueWords.indexOf(baseWord)
-
->>>>>>> 0359e53a5bd3f8ba048b36a855a78973f5bfb8c9
     var max = matrix[periodInd].reduce(function(a, b) {return a + b})
     var rand = Math.random() * max
     for(var i = 0; i < matrix.length; i++) {
