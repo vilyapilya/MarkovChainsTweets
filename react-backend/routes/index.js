@@ -12,10 +12,10 @@ oauth2.getOAuthAccessToken('', {
     'grant_type': 'client_credentials'
 }, function (e, access_token) {
 
-    var getOp = function(op) {
+    var getOption = function(screen_name) {
       return ({
         hostname: 'api.twitter.com',
-        path: `/1.1/statuses/user_timeline.json?screen_name=${op}&count=200&tweet_mode=extended&exclude_replies=true&trim_user=true`,
+        path: `/1.1/statuses/user_timeline.json?screen_name=${screen_name}&count=200&tweet_mode=extended&exclude_replies=true&trim_user=true`,
         headers: {
             Authorization: 'Bearer ' + access_token
         }
@@ -24,7 +24,7 @@ oauth2.getOAuthAccessToken('', {
     router.get('/v1/users/:username', function(req, res, next) {
       var username = req.params.username;
 
-      https.get(getOp(username), function (result) {
+      https.get(getOption(username), function (result) {
         var buffer = '';
         result.setEncoding('utf8');
         result.on('data', function (data) {
