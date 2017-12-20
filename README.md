@@ -12,7 +12,7 @@ Generates Markov chains based on a user tweets
 `PORT=3001 node bin/www`
 <br />
 <br />
-`open a new tab in your terminal`
+open a new tab in your terminal
 <br />
 `cd client`
 <br />
